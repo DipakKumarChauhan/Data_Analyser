@@ -46,6 +46,7 @@ class DatasetManager:
             schema['missing_values'][col] = int(df[col].isna().sum())
         
         return schema
+    
     def get_dataframe(self):
         return self.analysis_df
     def get_schema(self):
