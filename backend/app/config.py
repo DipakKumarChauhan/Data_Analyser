@@ -1,5 +1,5 @@
-from pydantic import BaseSettings
-from Pathlib import Path
+from pydantic_settings import BaseSettings
+from pathlib import Path
 
 class Settings(BaseSettings):
     APP_NAME: str
