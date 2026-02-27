@@ -3,6 +3,14 @@ import pandas as pd
 from rapidfuzz import process
 import difflib
 
+COLUMN_ALIASES = {
+    "gender": "sex",
+    "gender_type": "sex",
+    "ticket_price": "fare",
+    "price": "fare",
+    "passenger_class": "pclass"
+}
+
 class ValidationResult:
     def __init__(self, valid:bool, corrected_intent: Dict[str,Any],message:str = ""):
         self.valid = valid
@@ -19,7 +27,10 @@ class HybridValidator:
         if column in df.columns:
             return column
         
-
+        if column in COLUMN_ALIASES:
+            alias = COLUMN_ALIASES[column]
+            if alias in df.columns:
+                return alias
 
             # Fuzzy fallback performs partial substring matching to recover from non-exact column names and improves usability by allowing approximate column inputs.
         # for col in df.columns:
