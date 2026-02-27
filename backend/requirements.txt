@@ -4,3 +4,6 @@ pandas
 python-dotenv
 python-multipart
 pydantic-settings
+langchain
+langchain-core
+langchain-groq

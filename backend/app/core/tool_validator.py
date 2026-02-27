@@ -26,14 +26,8 @@ class HybridValidator:
     def validate_column(self, df:pd.DataFrame, column:str)-> str:        
         column = column.lower().strip()
 
-        
         if column in df.columns:
             return column
-        
-        if column in COLUMN_ALIASES:
-            alias = COLUMN_ALIASES[column]
-            if alias in df.columns:
-                return alias
 
             # Fuzzy fallback performs partial substring matching to recover from non-exact column names and improves usability by allowing approximate column inputs.
         # for col in df.columns:
@@ -94,10 +88,16 @@ class HybridValidator:
         
         # PIE CHART
         if chart == "pie_chart":
-            if self.is_numeric(df, column):
+            # Allow pie charts for low-cardinality columns (even if stored as numeric),
+            # e.g. binary indicators like "survived" (0/1). Only downgrade when the
+            # numeric column has many unique values where a pie chart is not useful.
+            if self.is_numeric(df, column) and df[column].nunique() > 6:
                 intent["chart_type"] = "histogram"
-                return ValidationResult(True, intent,
-                                        "Pie invalid for numeric → histogram used")
+                return ValidationResult(
+                    True,
+                    intent,
+                    "Pie invalid for high-cardinality numeric → histogram used",
+                )
 
             if df[column].nunique() > 8:
                 intent["chart_type"] = "bar_chart"
@@ -115,7 +115,12 @@ class HybridValidator:
     
     def validate_analytics(self, df, intent):
 
-        column = self.validate_column(df, intent["columns"][0])
+        # Ensure at least one target column is provided
+        columns = intent.get("columns") or []
+        if not columns:
+            raise ValueError("Analytics operations require at least one column.")
+
+        column = self.validate_column(df, columns[0])
         intent["columns"][0] = column
 
         operation = intent.get("operation")

@@ -1,24 +1,18 @@
-# from groq import Groq
+
 from langchain_groq import ChatGroq
+from langchain_google_genai import ChatGoogleGenerativeAI
 from app.config import settings
 
-# client = Groq(api_key=settings.GROQ_API_KEY)
+
 llm = ChatGroq(
-     model = 'llama-3.3-70b-versatile',
+    #  model = 'llama-3.3-70b-versatile',
+    model = 'llama-3.1-8b-instant',
     api_key=settings.GROQ_API_KEY,
-     temperature=0
+    temperature=0
     )
 
-# def call_llm(prompt:str)-> str:
-
-#     response = client.chat.completions.create(
-#         model= 'llama-3.3-70b-versatile',
-#         messages = [
-#             {"role": "system", "content": "You are a data analysis intent parser."},
-#             {"role": "user", "content": prompt}
-#         ],
-#         temperature=0,
-#     )
-#     # print(response.choices[0].message.content)
-#     return response.choices[0].message.content
-
+# llm = ChatGoogleGenerativeAI(
+#     model = "gemini-2.5-flash",
+#     api_key=settings.GEMINI_API_KEY,
+#     temperature=0
+# )

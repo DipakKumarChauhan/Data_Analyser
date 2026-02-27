@@ -19,7 +19,20 @@ def calculate_percentage(df:pd.DataFrame, column:str, value) -> float:
     
     total = len(df)
 
-    match_count =  (df[column] == value).sum()
+    # match_count =  (df[column] == value).sum()
+
+    # Convert value to match column dtype for proper comparison
+    try:
+        if pd.api.types.is_numeric_dtype(df[column]):
+            compare_value = pd.to_numeric(value)
+        else:
+            compare_value = str(value)
+    except:
+        compare_value = value
+        
+    match_count = (df[column] == compare_value).sum()
+
+    
 
     percentage = (match_count / total) * 100 if total > 0 else 0.0
 
