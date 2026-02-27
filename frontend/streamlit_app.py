@@ -13,8 +13,9 @@ import plotly.io as pio
 # CONFIGURATION
 # ============================================================================
 
-BACKEND_URL = "http://127.0.0.1:8000"
+# BACKEND_URL = "http://127.0.0.1:8000"
 
+BACKEND_URL= " https://data-analyser-y1jx.onrender.com"
 
 # ============================================================================
 # PAGE CONFIGURATION
