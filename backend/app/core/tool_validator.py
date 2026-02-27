@@ -3,13 +3,16 @@ import pandas as pd
 from rapidfuzz import process
 import difflib
 
-COLUMN_ALIASES = {
-    "gender": "sex",
-    "gender_type": "sex",
-    "ticket_price": "fare",
-    "price": "fare",
-    "passenger_class": "pclass"
-}
+# COLUMN_ALIASES = {
+#     "gender": "sex",
+#     "gender_type": "sex",
+#     "passenger_gender":"sex",
+#     "ticket_price": "fare",
+#     "price": "fare",
+#     "passenger_class": "pclass"
+# }
+
+# No need Of Column Aliases As i have implemeted Fuzzy Matching using RapidFuzz and also used Schema Grounding to improve column validation and recovery from non-exact column names, enhancing the robustness and usability of the tool by allowing for approximate column inputs and reducing the likelihood of errors due to misspellings or variations in column naming conventions.
 
 class ValidationResult:
     def __init__(self, valid:bool, corrected_intent: Dict[str,Any],message:str = ""):
